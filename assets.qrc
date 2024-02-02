@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>res/dark.jpg</file>
+        <file>res/icon.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>qml/AudioInfoBox.qml</file>
+        <file>qml/Main.qml</file>
+        <file>qml/TextButton.qml</file>
+        <file>qml/TextInput.qml</file>
+        <file>qml/CustomSlider.qml</file>
+    </qresource>
+</RCC>
