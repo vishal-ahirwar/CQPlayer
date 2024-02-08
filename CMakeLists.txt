@@ -4,6 +4,7 @@ project(customItemsUsingQml VERSION 0.1 LANGUAGES CXX)
 set(
     SOURCE_FILES  MusicPlayerController/musicplayercontroller.h MusicPlayerController/musicplayercontroller.cpp
     AudioInfo/audioinfo.h AudioInfo/audioinfo.cpp
+    Util/util.h Util/util.cpp
 )
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTORCC ON)

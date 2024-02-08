@@ -4,7 +4,8 @@
 #include <QObject>
 #include<QMediaPlayer>
 #include<QAbstractListModel>
-#include"AudioInfo/audioinfo.h"
+#include<AudioInfo/audioinfo.h>
+
 class MusicplayerController : public QAbstractListModel
 {
     Q_OBJECT
@@ -36,6 +37,7 @@ private:
     bool m_bplaying{};
     AudioInfo*m_current_song{};
     std::unique_ptr<class QMediaPlayer>m_player{};
+    std::unique_ptr<class Util>m_util{};
     QList<AudioInfo*>m_audioinfo_list{};
 public:
     virtual int rowCount(const QModelIndex &parent) const override;

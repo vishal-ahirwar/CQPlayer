@@ -3,8 +3,10 @@
 #include<QAudioDevice>
 #include<QAudioOutput>
 #include<QHash>
+#include<Util/util.h>
 MusicplayerController::MusicplayerController(QObject *parent):m_bplaying{false}{
     this->m_player=std::make_unique<QMediaPlayer>();
+    this->m_util=std::make_unique<Util>();
     const auto&audioOutputs{QMediaDevices::audioOutputs()};
     if(audioOutputs.empty())
     {
@@ -12,6 +14,9 @@ MusicplayerController::MusicplayerController(QObject *parent):m_bplaying{false}{
         return;
     }
     m_player->setAudioOutput(new QAudioOutput(m_player.get()));
+    QString test_string{};
+    m_util->load(test_string);
+    qDebug()<<test_string;
 }
 
 void MusicplayerController::changeAudioSource(QUrl url)
@@ -57,7 +62,7 @@ int MusicplayerController::rowCount(const QModelIndex &parent) const
 
 QVariant MusicplayerController::data(const QModelIndex &index, int role) const
 {
-
+    return {};
 }
 
 QHash<int, QByteArray> MusicplayerController::roleNames() const
