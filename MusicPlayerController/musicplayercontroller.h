@@ -39,6 +39,9 @@ private:
     std::unique_ptr<class QMediaPlayer>m_player{};
     std::unique_ptr<class Util>m_util{};
     QList<AudioInfo*>m_audioinfo_list{};
+private:
+    inline int e2i(const Role&role)const;
+    inline Role i2e(int)const;
 public:
     virtual int rowCount(const QModelIndex &parent) const override;
     virtual QVariant data(const QModelIndex &index, int role) const override;

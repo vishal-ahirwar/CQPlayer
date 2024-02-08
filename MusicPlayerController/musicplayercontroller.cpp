@@ -4,6 +4,7 @@
 #include<QAudioOutput>
 #include<QHash>
 #include<Util/util.h>
+
 MusicplayerController::MusicplayerController(QObject *parent):m_bplaying{false}{
     this->m_player=std::make_unique<QMediaPlayer>();
     this->m_util=std::make_unique<Util>();
@@ -62,17 +63,34 @@ int MusicplayerController::rowCount(const QModelIndex &parent) const
 
 QVariant MusicplayerController::data(const QModelIndex &index, int role) const
 {
+    if(index.isValid()&&index.row()>=0&&index.row()<m_audioinfo_list.length())
+    {
+        AudioInfo*info=m_audioinfo_list.at(index.row());
+        switch(i2e(role))
+        {
+        case Role::AudioAuthorNameRole:
+            return info->authorName();
+        case Role::AudioImageSourceRole:
+            return info->imageSource();
+        case Role::AudioSourceRole:
+            return info->audioSource();
+        case Role::AudioVideoSourceRole:
+            return info->videoSource();
+        case Role::AudioTitleRole:
+            return info->title();
+        }
+    }
     return {};
 }
 
 QHash<int, QByteArray> MusicplayerController::roleNames() const
 {
     QHash<int, QByteArray>result;
-    result[(int)Role::AudioAuthorNameRole]="authorName";
-    result[(int)Role::AudioImageSourceRole]="ImageSource";
-    result[(int)Role::AudioSourceRole]="audioSource";
-    result[(int)Role::AudioVideoSourceRole]="videoSource";
-    result[(int)Role::AudioTitleRole]="audioTitle";
+    result[e2i(Role::AudioAuthorNameRole)]="authorName";
+    result[e2i(Role::AudioImageSourceRole)]="ImageSource";
+    result[e2i(Role::AudioSourceRole)]="audioSource";
+    result[e2i(Role::AudioVideoSourceRole)]="videoSource";
+    result[e2i(Role::AudioTitleRole)]="audioTitle";
     return result;
 };
 
@@ -85,3 +103,14 @@ void MusicplayerController::setCurrentSong(AudioInfo*newSong)
 {
 
 };
+
+inline int MusicplayerController::e2i(const Role&role)const
+{
+    return static_cast<int>(role);
+};
+
+inline MusicplayerController::Role MusicplayerController::i2e(int n)const
+{
+    return static_cast<Role>(n);
+};
+
