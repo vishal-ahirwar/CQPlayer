@@ -11,7 +11,7 @@ Window {
     flags: "FramelessWindowHint"
     Component.onCompleted:
     {
-        PlayerController.changeAudioSource(firstSong.audioSource    )
+        PlayerController.changeAudioSource(firstSong.audioinfo.audioSource)
     }
 
 
@@ -26,6 +26,7 @@ Window {
 
     TextButton
     {
+        id:closeButton
         anchors.right: parent.right
         anchors.rightMargin: 10
         anchors.top: parent.top
@@ -42,11 +43,28 @@ Window {
             Qt.quit()
         }
     }
-
+    TextButton
+    {
+        anchors.right: closeButton.left
+        anchors.rightMargin: 10
+        anchors.top: parent.top
+        anchors.topMargin: 10
+        text: "-"
+        font.pixelSize: 34
+        fontColor: "white"
+        color: "transparent"
+        btnRadius: 1
+        width: 56
+        height: width
+        onClicked:
+        {
+            showMinimized()
+        }
+    }
     AudioInfoBox
     {
         id:firstSong
-        audioSource:"/home/soloknight/Music/y2mate.com - Call Aundi Song SlowedReverb Yo Yo honey Singh.mp3"
+        audioinfo.audioSource:"C:/Users/Vishal Ahirwar/Downloads/DILBARA _ Official Video _ Ipsitaa _ Aditya Dev _ Rashmi Virag _ Charit Desai _ Jjust Music.mp3"
         visible: PlayerController.current_song_index==0
         anchors
         {
@@ -57,15 +75,15 @@ Window {
             bottom:parent.bottom
             margins:20
         }
-        songIndex: 0
-        title: "Call Aundi Song SlowedReverb Yo Yo honey Singh"
-        authorName: "Yo Yo honey Singh"
+        audioinfo.songIndex: 0
+        audioinfo.title: "Dilbara"
+        audioinfo.authorName: "Ipsitaa"
         // imageSource: "qrc:/images/res/icon.png"
     }
     AudioInfoBox
     {
         id:secondSong
-        audioSource:"/home/soloknight/Music/Honthon Pe Bas _ Zaara Yesmin, Parth Samthaan _ Seepi Jha, Sameer Khan _ Raaj Aashoo _ Tips Official.mp3"
+        audioinfo.audioSource:"C:/Users/Vishal Ahirwar/Downloads/Vilen - Jawani (Official Audio).mp3"
         visible: PlayerController.current_song_index==1
         anchors
         {
@@ -76,15 +94,15 @@ Window {
             bottom:parent.bottom
             margins:20
         }
-        songIndex: 0
-        title: "Honthon Pe Bas"
-        authorName: "Zaara Yesmin, Parth Samthaan"
+        audioinfo.songIndex: 0
+        audioinfo.title: "Jawani (Official Audio)"
+        audioinfo.authorName: "Vilen"
         // imageSource: "qrc:/images/res/icon.png"
     }
     AudioInfoBox
     {
         id:thirdSong
-        audioSource: "/home/soloknight/Music/Hare Krishna Hare Rama - Mahamantra - Lofi ! Hindi.mp3"
+        audioinfo.audioSource: "C:/Users/Vishal Ahirwar/Downloads/संपूर्ण गीता & MAHABHARAT  in 9 Minutes RAP _ FULL VERSION 🔥 _ AbbyViral 🔥 Kavi Amit Sharma.mp3"
         visible: PlayerController.current_song_index==2
         anchors
         {
@@ -95,9 +113,9 @@ Window {
             bottom:parent.bottom
             margins:20
         }
-        songIndex: 0
-        title: "Hare Krishna Hare Rama"
-        authorName: "Mahamantra"
+        audioinfo.songIndex: 0
+        audioinfo.title: "संपूर्ण गीता & MAHABHARAT  in 9 Minutes RAP"
+        audioinfo.authorName: "AbbyViral"
         // imageSource: "qrc:/images/res/icon.png"
     }
 
@@ -117,7 +135,6 @@ Window {
         onClicked:
         {
             PlayerController.switchToNextSong()
-            PlayerController.changeAudioSource(songs[PlayerController.current_song_index])
         }
     }
 
@@ -139,7 +156,6 @@ Window {
         onClicked:
         {
             PlayerController.switchToPreviousSong()
-            PlayerController.changeAudioSource(songs[PlayerController.current_song_index])
         }
     }
     TextButton
@@ -159,10 +175,4 @@ Window {
             PlayerController.togglePlayPause()
         }
     }
-
-    property var songs:[
-        "/home/soloknight/Music/y2mate.com - Call Aundi Song SlowedReverb Yo Yo honey Singh.mp3",
-        "/home/soloknight/Music/Honthon Pe Bas _ Zaara Yesmin, Parth Samthaan _ Seepi Jha, Sameer Khan _ Raaj Aashoo _ Tips Official.mp3",
-        "/home/soloknight/Music/Hare Krishna Hare Rama - Mahamantra - Lofi ! Hindi.mp3"
-    ]
 }

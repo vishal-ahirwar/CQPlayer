@@ -1,22 +1,25 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(customItemsUsingQml VERSION 0.1 LANGUAGES CXX)
-
+set(
+    SOURCE_FILES  MusicPlayerController/musicplayercontroller.h MusicPlayerController/musicplayercontroller.cpp
+    AudioInfo/audioinfo.h AudioInfo/audioinfo.cpp
+)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTORCC ON)
-find_package(Qt6 6.4 REQUIRED COMPONENTS Quick Multimedia)
 
+find_package(Qt6 6.4 REQUIRED COMPONENTS Quick Multimedia)
+include_directories(AudioInfo)
 qt_standard_project_setup()
 qt_add_executable(appcustomItemsUsingQml
-    main.cpp
+    main.cpp ${SOURCE_FILES}
 )
 
 qt_add_qml_module(appcustomItemsUsingQml
-    URI customItemsUsingQml
+    URI Resources
     VERSION 1.0
+    SOURCES
     RESOURCES assets.qrc
-    SOURCES MusicPlayerController/musicplayercontroller.h MusicPlayerController/musicplayercontroller.cpp
-    SOURCES AudioInfo/audioinfo.h AudioInfo/audioinfo.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

@@ -1,16 +1,13 @@
 import QtQuick
 import com.vishal.MusicPlayerController 1.0
+import com.vishal.AudioInfo 1.0
 Item {
     id:root
-
-    required property int songIndex
-    property alias title:titleText.text
-    property alias authorName: authorText.text
-    property alias imageSource: albumImage.source
-    required property url audioSource
+    readonly property AudioInfo audioinfo:AudioInfo{}
     Image
     {
         id:albumImage
+        source: audioinfo.imageSource
         anchors
         {
             verticalCenter:parent.verticalCenter
@@ -21,7 +18,7 @@ Item {
     }
     Text {
         id: titleText
-        text: qsTr("Tere liye")
+        text: audioinfo.title
         anchors
         {
             bottom:parent.verticalCenter
@@ -37,7 +34,7 @@ Item {
 
     Text {
         id: authorText
-        text: qsTr("unknown")
+        text: audioinfo.authorName
         anchors
         {
             bottom:parent.verticalCenter
@@ -64,5 +61,19 @@ Item {
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         font.pixelSize: 14
         font.bold: false
+    }
+    onVisibleChanged:
+    {
+        if(visible)
+        {
+            PlayerController.changeAudioSource(audioinfo.audioSource)
+        }
+    }
+    Component.onCompleted:
+    {
+        if(PlayerController.current_song_index==audioinfo.songIndex)
+        {
+            PlayerController.changeAudioSource(audioinfo.audioSource)
+        }
     }
 }

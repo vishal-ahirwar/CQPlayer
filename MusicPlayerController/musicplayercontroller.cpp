@@ -1,55 +1,82 @@
-#include "musicplayercontroller.h"
+#include<MusicPlayerController/musicplayercontroller.h>
 #include<QMediaDevices>
 #include<QAudioDevice>
 #include<QAudioOutput>
-
-MusicplayerController::MusicplayerController(QObject *parent):QObject{parent},song_count{3},current_song_index{0},b_playing{false}{
-    this->player=std::make_unique<QMediaPlayer>();
+#include<QHash>
+MusicplayerController::MusicplayerController(QObject *parent):m_bplaying{false}{
+    this->m_player=std::make_unique<QMediaPlayer>();
     const auto&audioOutputs{QMediaDevices::audioOutputs()};
-    if(audioOutputs.empty())return;
-    player->setAudioOutput(new QAudioOutput(player.get()));
+    if(audioOutputs.empty())
+    {
+        qDebug()<<"No Audio outputs foudn!";
+        return;
+    }
+    m_player->setAudioOutput(new QAudioOutput(m_player.get()));
 }
 
 void MusicplayerController::changeAudioSource(QUrl url)
 {
-    if(!player)return;
-    player->stop();
-    player->setSource(url);
-    if(b_playing)
+    if(!m_player)return;
+    m_player->stop();
+    m_player->setSource(url);
+    if(m_bplaying)
     {
-        player->play();
+        m_player->play();
+        qDebug()<<url;
     };
-};
-int MusicplayerController::getCurrentSongIndex() const
-{
-    return current_song_index;
-};
-
+}
 bool MusicplayerController::getbPlaying()const
 {
-    return b_playing;
-};
-
-int MusicplayerController::getSongCount()const
-{
-    return song_count;
+    return m_bplaying;
 };
 
 void MusicplayerController::switchToNextSong()
 {
-    if(current_song_index+1>=song_count)current_song_index=0;
-    else ++current_song_index;
-    emit currentSongIndexChanged();};
-
+    // if(current_song_index+1>=song_count)current_song_index=0;
+    // else ++current_song_index;
+};
 void MusicplayerController::switchToPreviousSong()
 {
-    if(current_song_index-1<0)current_song_index=song_count-1;
-    else --current_song_index;
-    emit currentSongIndexChanged();};
+    // if(current_song_index-1<0)current_song_index=song_count-1;
+    // else --current_song_index;
+};
 
 void MusicplayerController::togglePlayPause()
 {
-    b_playing=!b_playing;
-    b_playing?player->play():player->stop();
+    m_bplaying=!m_bplaying;
+    m_bplaying?m_player->play():m_player->stop();
     emit bPlayingChanged();
+};
+
+
+int MusicplayerController::rowCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent)
+    return m_audioinfo_list.length();
+};
+
+QVariant MusicplayerController::data(const QModelIndex &index, int role) const
+{
+
+}
+
+QHash<int, QByteArray> MusicplayerController::roleNames() const
+{
+    QHash<int, QByteArray>result;
+    result[(int)Role::AudioAuthorNameRole]="authorName";
+    result[(int)Role::AudioImageSourceRole]="ImageSource";
+    result[(int)Role::AudioSourceRole]="audioSource";
+    result[(int)Role::AudioVideoSourceRole]="videoSource";
+    result[(int)Role::AudioTitleRole]="audioTitle";
+    return result;
+};
+
+AudioInfo* MusicplayerController::getCurrentSong()const
+{
+    return m_current_song;
+}
+
+void MusicplayerController::setCurrentSong(AudioInfo*newSong)
+{
+
 };

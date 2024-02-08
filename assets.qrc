@@ -10,4 +10,5 @@
         <file>qml/TextInput.qml</file>
         <file>qml/CustomSlider.qml</file>
     </qresource>
+    <qresource prefix="/audio"/>
 </RCC>

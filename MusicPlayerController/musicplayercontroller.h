@@ -3,34 +3,44 @@
 
 #include <QObject>
 #include<QMediaPlayer>
-class MusicplayerController : public QObject
+#include<QAbstractListModel>
+#include"AudioInfo/audioinfo.h"
+class MusicplayerController : public QAbstractListModel
 {
     Q_OBJECT
-    
-    Q_PROPERTY(int current_song_index READ getCurrentSongIndex  NOTIFY currentSongIndexChanged FINAL REQUIRED)
-    Q_PROPERTY(int song_count READ getSongCount NOTIFY songCountChanged FINAL)
     Q_PROPERTY(bool b_playing READ getbPlaying NOTIFY bPlayingChanged FINAL)
+    Q_PROPERTY(AudioInfo* current_song READ getCurrentSong WRITE setCurrentSong NOTIFY currentSongChanged)
+
 public:
     explicit MusicplayerController(QObject *parent = nullptr);
-    int getCurrentSongIndex() const;
-    int getSongCount()const;
     bool getbPlaying()const;
-
+    AudioInfo*getCurrentSong()const;
+    void setCurrentSong(AudioInfo*newSong);
+    enum class Role
+    {
+        AudioTitleRole=Qt::UserRole+1,
+        AudioAuthorNameRole,
+        AudioSourceRole,
+        AudioImageSourceRole,
+        AudioVideoSourceRole
+    };
 public:
     Q_INVOKABLE void switchToNextSong();
     Q_INVOKABLE void switchToPreviousSong();
     Q_INVOKABLE void togglePlayPause();
     Q_INVOKABLE void changeAudioSource(QUrl url);
 signals:
-    void currentSongIndexChanged();
-    void songCountChanged();
     void bPlayingChanged();
-
+    void currentSongChanged();
 private:
-    int current_song_index{};
-    int song_count{};
-    bool b_playing{};
-    std::unique_ptr<class QMediaPlayer>player{};
+    bool m_bplaying{};
+    AudioInfo*m_current_song{};
+    std::unique_ptr<class QMediaPlayer>m_player{};
+    QList<AudioInfo*>m_audioinfo_list{};
+public:
+    virtual int rowCount(const QModelIndex &parent) const override;
+    virtual QVariant data(const QModelIndex &index, int role) const override;
+    virtual QHash<int, QByteArray> roleNames() const override;
 };
 
 #endif // MUSICPLAYERCONTROLLER_H
