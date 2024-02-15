@@ -16,7 +16,7 @@ public:
     explicit MusicplayerController(QObject *parent = nullptr);
     bool getbPlaying()const;
     AudioInfo*getCurrentSong()const;
-    void setCurrentSong(AudioInfo*newSong);
+    void setCurrentSong(AudioInfo*);
     enum class Role
     {
         AudioTitleRole=Qt::UserRole+1,
@@ -30,10 +30,16 @@ public:
     Q_INVOKABLE void switchToPreviousSong();
     Q_INVOKABLE void togglePlayPause();
     Q_INVOKABLE void changeAudioSource(QUrl url);
+    Q_INVOKABLE void switchToAudioByIndex(int);
+
+public slots:
+    void addAudio(const QString&,const QString&,const QUrl&,const QUrl&,const QUrl&);
+    void removeAudio(int);
 signals:
     void bPlayingChanged();
     void currentSongChanged();
 private:
+
     bool m_bplaying{};
     AudioInfo*m_current_song{};
     std::unique_ptr<class QMediaPlayer>m_player{};

@@ -10,6 +10,7 @@ Item {
     signal clicked()
     Rectangle
     {
+        id:bg
         anchors.fill: parent
         color: if(buttonMouseArea.containsPress)
                {
@@ -22,12 +23,16 @@ Item {
                    return root.color
                }
         radius: btnRadius
+        Text {
+            id: btnText
+            width: bg.width
+            height: bg.heights
+            verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Qt.AlignHCenter
+            anchors.verticalCenter: parent.verticalCenter
+        }
     }
-    Text {
-        id: btnText
-        text: qsTr(">>")
-        anchors.centerIn: parent
-    }
+
     MouseArea
     {
         id:buttonMouseArea

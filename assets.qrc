@@ -9,6 +9,8 @@
         <file>qml/TextButton.qml</file>
         <file>qml/TextInput.qml</file>
         <file>qml/CustomSlider.qml</file>
+        <file>qml/PlaylistPanel.qml</file>
+        <file>qml/SearchPanel.qml</file>
     </qresource>
     <qresource prefix="/audio"/>
 </RCC>

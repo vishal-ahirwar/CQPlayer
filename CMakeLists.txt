@@ -5,6 +5,7 @@ set(
     SOURCE_FILES  MusicPlayerController/musicplayercontroller.h MusicPlayerController/musicplayercontroller.cpp
     AudioInfo/audioinfo.h AudioInfo/audioinfo.cpp
     Util/util.h Util/util.cpp
+    SearchList/searchlist.h SearchList/searchlist.cpp
 )
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTORCC ON)

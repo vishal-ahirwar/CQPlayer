@@ -3,22 +3,22 @@ import com.vishal.MusicPlayerController 1.0
 import com.vishal.AudioInfo 1.0
 Item {
     id:root
-    readonly property AudioInfo audioinfo:AudioInfo{}
+
     Image
     {
         id:albumImage
-        source: audioinfo.imageSource
+        source: PlayerController.current_song?PlayerController.current_song.imageSource:""
         anchors
         {
             verticalCenter:parent.verticalCenter
             left:parent.left
         }
-
-
+        width: 100
+        height: 100
     }
     Text {
         id: titleText
-        text: audioinfo.title
+        text: PlayerController.current_song?PlayerController.current_song.title:""
         anchors
         {
             bottom:parent.verticalCenter
@@ -34,7 +34,7 @@ Item {
 
     Text {
         id: authorText
-        text: audioinfo.authorName
+        text: PlayerController.current_song?PlayerController.current_song.authorName:""
         anchors
         {
             bottom:parent.verticalCenter
@@ -49,10 +49,10 @@ Item {
     }
     Text {
         id: status
-        text: PlayerController.b_playing?"Playing... :)":"Paused... :("
+        text: PlayerController.current_song?PlayerController.b_playing?"Playing... :)":"Paused... :(":"Click + Button to Search Songs"
         anchors
         {
-            left:authorText.left
+            left:PlayerController.current_song?authorText.left:root.left
             top:authorText.top
             topMargin:25
             right:parent.right
@@ -61,19 +61,5 @@ Item {
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         font.pixelSize: 14
         font.bold: false
-    }
-    onVisibleChanged:
-    {
-        if(visible)
-        {
-            PlayerController.changeAudioSource(audioinfo.audioSource)
-        }
-    }
-    Component.onCompleted:
-    {
-        if(PlayerController.current_song_index==audioinfo.songIndex)
-        {
-            PlayerController.changeAudioSource(audioinfo.audioSource)
-        }
     }
 }
