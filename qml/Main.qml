@@ -1,6 +1,6 @@
 import QtQuick
 import com.vishal.MusicPlayerController 1.0
-
+import Qt.labs.platform
 Window {
 
     width: 1200
@@ -10,7 +10,35 @@ Window {
     id:rootWindow
     color: "black"
     flags: "FramelessWindowHint"
+    SystemTrayIcon {
+        visible: true
+        icon.source: "qrc:/images/res/icon.png"
 
+        onActivated: {
+            rootWindow.show()
+            rootWindow.raise()
+            rootWindow.requestActivate()
+        }
+
+        menu: Menu
+        {
+            MenuItem
+            {
+                text: "Quit"
+                onTriggered: Qt.quit()
+            }
+            MenuItem
+            {
+                text: "show Oni"
+                onTriggered:
+                {
+                    rootWindow.show()
+                    rootWindow.raise()
+                    rootWindow.requestActivate()
+                }
+            }
+        }
+    }
     Image {
         id: bg
         source: "qrc:/images/res/dark.jpg"

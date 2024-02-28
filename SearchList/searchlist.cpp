@@ -5,11 +5,15 @@
 #include <QJsonObject>
 #include<QNetworkReply>
 #include <QUrlQuery>
+
 namespace
 {
     const QString &REQUEST_URL="https://api.jamendo.com/v3.0/tracks/";
     const QString &CLIENT_ID="2afbbb15";
     const QString &CLIENT_SECRET="636c58520534ea21624ef82734ad27f1";
+    const QString &SPOTIFY_CLIENT_ID="**************************";
+    const QString &SPOTIFY_CLIENT_SECRET="****************************";
+    const QString &SPOTIFY_REQUESt_URL="";
 };
 
 SearchList::SearchList(QObject*parent):QAbstractListModel{parent},m_network_manager{nullptr},m_reply{nullptr}
